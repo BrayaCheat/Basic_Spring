@@ -48,4 +48,9 @@ public class AuthorServiceImpl implements AuthorService {
 //        authorRepository.deleteById(findAuthor.getId());
         return "Author deleted.";
     }
+
+    @Override
+    public String demo() {
+        return "What the hell";
+    }
 }

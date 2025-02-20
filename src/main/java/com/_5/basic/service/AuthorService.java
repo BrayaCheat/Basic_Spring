@@ -8,5 +8,7 @@ public interface AuthorService {
     Author getAuthor(Long id);
     Author updateAuthor(Long id, Author author);
     String deleteAuthor(Long id);
+    String demo();
 }
+
 
