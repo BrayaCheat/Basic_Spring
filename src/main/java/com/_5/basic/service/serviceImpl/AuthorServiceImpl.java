@@ -14,43 +14,51 @@ public class AuthorServiceImpl implements AuthorService {
     private final AuthorRepository authorRepository;
 
     @Autowired
-    public AuthorServiceImpl(AuthorRepository authorRepository){
+    public AuthorServiceImpl(AuthorRepository authorRepository) {
         this.authorRepository = authorRepository;
     }
 
     @Override
     public List<Author> listAuthors() {
-        List<Author> authorList = authorRepository.findAll();
-        System.out.println("Author list: " + authorList);
         return authorRepository.findAll();
     }
 
     @Override
     public Author getAuthor(Long id) {
-        Long idx = 1L;
-        Author res =  authorRepository.findById(idx).orElseThrow(() -> new RuntimeException("Author not found."));
-        System.out.println("Logs: " + res);
-        return res;
+        return authorRepository.findById(id).orElseThrow(() -> new RuntimeException("Author not found."));
+    }
+
+    @Override
+    public Author createAuthor(Author author){
+        boolean exist = authorRepository.existsByName(author.getName());
+        if(exist){
+            throw new RuntimeException("Author already exist");
+        }
+        return authorRepository.save(author);
     }
 
     @Override
     public Author updateAuthor(Long id, Author author) {
         Author findAuthor = authorRepository.findById(id).orElseThrow(() -> new RuntimeException("Author not found."));
-//        findAuthor.setName(author.getName());
-//        findAuthor.setDOB(author.getDOB());
-//        return authorRepository.save(findAuthor);
-        return findAuthor;
+        Author updatedAuthor = findAuthor.toBuilder()
+                .name(author.getName() != null ? author.getName() : findAuthor.getName())
+                .DOB(author.getDOB() != null ? author.getDOB() : findAuthor.getDOB())
+                .build();
+        return authorRepository.save(updatedAuthor);
     }
 
     @Override
-    public String deleteAuthor(Long id) {
-//        Author findAuthor = authorRepository.findById(id).orElseThrow(() -> new RuntimeException("Author not found."));
-//        authorRepository.deleteById(findAuthor.getId());
-        return "Author deleted.";
+    public void deleteAuthor(Long id) {
+        Author findAuthor = authorRepository.findById(id).orElseThrow(() -> new RuntimeException("Author not found."));
+        authorRepository.deleteById(findAuthor.getId());
     }
 
     @Override
-    public String demo() {
-        return "What the hell";
+    public List<Author> searchAuthor(String name) {
+        List<Author> ListAuthors = authorRepository.searchByName(name);
+        if(ListAuthors.isEmpty()){
+            throw new RuntimeException("No authors match this name.");
+        }
+        return ListAuthors;
     }
 }

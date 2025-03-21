@@ -6,9 +6,10 @@ import java.util.List;
 public interface AuthorService {
     List<Author> listAuthors();
     Author getAuthor(Long id);
+    Author createAuthor(Author author);
     Author updateAuthor(Long id, Author author);
-    String deleteAuthor(Long id);
-    String demo();
+    void deleteAuthor(Long id);
+    List<Author> searchAuthor(String name);
 }
 
 
