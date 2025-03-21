@@ -17,9 +17,5 @@ public interface AuthorMapper {
 
     // Map Entity -> DTO (Response)
     @Mapping(target = "id", source = "id")
-    @Mapping(target = "name", source = "name")
-    @Mapping(target = "birth", source = "birth")
-    @Mapping(target = "books", source = "books")
-    @Mapping(target = "createdAt", source = "createdAt")
     AuthorResponseDTO toDTO(Author author);
 }

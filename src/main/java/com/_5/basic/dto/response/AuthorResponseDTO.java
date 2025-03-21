@@ -18,5 +18,4 @@ public class AuthorResponseDTO {
     private String name;
     private LocalDate birth;
     private List<Book> books;
-    private LocalDate createdAt;
 }

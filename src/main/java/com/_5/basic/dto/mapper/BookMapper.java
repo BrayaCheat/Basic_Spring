@@ -16,9 +16,8 @@ public interface BookMapper {
     Book toEntity(BookRequestDTO dto);
 
     // Map Entity -> DTO (Response to Client)
-    @Mapping(target = "name", source = "name")
-    @Mapping(target = "publishDate", source = "publishDate")
     @Mapping(target = "authorId", source = "author.id")
     @Mapping(target = "authorName", source = "author.name")
-    BookResponseDTO toDTO(Book author);
+    @Mapping(target = "id", source = "id")
+    BookResponseDTO toDTO(Book book);
 }
