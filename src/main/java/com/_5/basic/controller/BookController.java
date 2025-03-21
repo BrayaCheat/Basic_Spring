@@ -25,12 +25,12 @@ public class BookController {
         return ResponseEntity.ok(bookService.getBook(id));
     }
 
-    @GetMapping("/")
+    @GetMapping
     public ResponseEntity<List<Book>> listBooks(){
         return ResponseEntity.ok(bookService.listBooks());
     }
 
-    @PostMapping("/")
+    @PostMapping
     public ResponseEntity<Book> createBook(@RequestBody Book book){
         return ResponseEntity.ok(bookService.createBook(book));
     }

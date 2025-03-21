@@ -1,6 +1,8 @@
 package com._5.basic.service.serviceImpl;
 
+import com._5.basic.model.Author;
 import com._5.basic.model.Book;
+import com._5.basic.repository.AuthorRepository;
 import com._5.basic.repository.BookRepository;
 import com._5.basic.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,10 +14,12 @@ import java.util.List;
 public class BookServiceImpl implements BookService {
 
     private final BookRepository bookRepository;
+    private final AuthorRepository authorRepository;
 
     @Autowired
-    public BookServiceImpl(BookRepository bookRepository){
+    public BookServiceImpl(BookRepository bookRepository, AuthorRepository authorRepository){
         this.bookRepository = bookRepository;
+        this.authorRepository = authorRepository;
     }
 
     @Override
@@ -30,6 +34,8 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public Book createBook(Book book) {
+        Author findAuthor = authorRepository.findById(book.getAuthor().getId()).orElseThrow(() -> new RuntimeException("Author not found."));
+        book.setAuthor(findAuthor);
         return bookRepository.save(book);
     }
 

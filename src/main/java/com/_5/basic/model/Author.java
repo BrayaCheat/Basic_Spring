@@ -1,5 +1,6 @@
 package com._5.basic.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -21,7 +22,7 @@ public class Author {
     private Long id;
 
     private String name;
-    private LocalDate DOB;
+    private LocalDate birth;
 
     @CreationTimestamp
     private LocalDate createdAt;
