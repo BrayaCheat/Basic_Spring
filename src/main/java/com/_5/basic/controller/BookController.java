@@ -1,5 +1,7 @@
 package com._5.basic.controller;
 
+import com._5.basic.dto.request.BookRequestDTO;
+import com._5.basic.dto.response.BookResponseDTO;
 import com._5.basic.model.Book;
 import com._5.basic.service.serviceImpl.BookServiceImpl;
 import org.apache.coyote.Response;
@@ -21,23 +23,23 @@ public class BookController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Book> getBook(@PathVariable Long id){
+    public ResponseEntity<BookResponseDTO> getBook(@PathVariable Long id){
         return ResponseEntity.ok(bookService.getBook(id));
     }
 
     @GetMapping
-    public ResponseEntity<List<Book>> listBooks(){
+    public ResponseEntity<List<BookResponseDTO>> listBooks(){
         return ResponseEntity.ok(bookService.listBooks());
     }
 
     @PostMapping
-    public ResponseEntity<Book> createBook(@RequestBody Book book){
-        return ResponseEntity.ok(bookService.createBook(book));
+    public ResponseEntity<BookResponseDTO> createBook(@RequestBody BookRequestDTO dto){
+        return ResponseEntity.ok(bookService.createBook(dto));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Book> updateBook(@PathVariable Long id, @RequestBody Book book){
-        return ResponseEntity.ok(bookService.updateBook(id, book));
+    public ResponseEntity<BookResponseDTO> updateBook(@PathVariable Long id, @RequestBody BookRequestDTO dto){
+        return ResponseEntity.ok(bookService.updateBook(id, dto));
     }
 
     @DeleteMapping("/{id}")
@@ -47,7 +49,7 @@ public class BookController {
     }
 
     @GetMapping("/search")
-    public ResponseEntity<List<Book>> searchBooks(@RequestParam String name){
+    public ResponseEntity<List<BookResponseDTO>> searchBooks(@RequestParam String name){
         return ResponseEntity.ok(bookService.searchBook(name));
     }
 }
