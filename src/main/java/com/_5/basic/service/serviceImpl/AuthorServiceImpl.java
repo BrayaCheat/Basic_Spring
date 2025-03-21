@@ -26,7 +26,6 @@ public class AuthorServiceImpl implements AuthorService {
 
     @Override
     public List<AuthorResponseDTO> listAuthors() {
-        System.out.println(authorRepository.findAll().stream().map(authorMapper::toDTO).collect(Collectors.toList()));
         return authorRepository
                 .findAll()
                 .stream()
