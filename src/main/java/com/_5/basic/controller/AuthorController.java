@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/author")
+@RequestMapping("/api/v1")
 public class AuthorController {
 
     private final AuthorServiceImpl authorService;
@@ -20,33 +20,33 @@ public class AuthorController {
         this.authorService = authorService;
     }
 
-    @GetMapping
+    @GetMapping("/authors")
     public ResponseEntity<List<AuthorResponseDTO>> listAuthors() {
         return ResponseEntity.ok(authorService.listAuthors());
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/authors/{id}")
     public ResponseEntity<AuthorResponseDTO> getAuthor(@PathVariable Long id) {
         return ResponseEntity.ok(authorService.getAuthor(id));
     }
 
-    @PostMapping
+    @PostMapping("/authors")
     public ResponseEntity<AuthorResponseDTO> createAuthor(@RequestBody AuthorRequestDTO dto) {
         return ResponseEntity.ok(authorService.createAuthor(dto));
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/authors/{id}")
     public ResponseEntity<AuthorResponseDTO> updateAuthor(@PathVariable Long id, @RequestBody AuthorRequestDTO dto) {
         return ResponseEntity.ok(authorService.updateAuthor(id, dto));
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/authors/{id}")
     public ResponseEntity<String> deleteAuthor(@PathVariable Long id) {
         authorService.deleteAuthor(id);
         return ResponseEntity.ok("Author deleted.");
     }
 
-    @GetMapping("/search")
+    @GetMapping("/authors/search")
     public ResponseEntity<List<AuthorResponseDTO>> searchAuthor(@RequestParam String name) {
         return ResponseEntity.ok(authorService.searchAuthor(name));
     }

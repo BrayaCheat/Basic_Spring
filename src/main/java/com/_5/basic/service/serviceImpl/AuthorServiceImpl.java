@@ -45,27 +45,25 @@ public class AuthorServiceImpl implements AuthorService {
     public AuthorResponseDTO createAuthor(AuthorRequestDTO dto) {
         boolean exist = authorRepository.existsByName(dto.getName());
         if (exist) {
-            throw new RuntimeException("Author already exist");
+            throw new RuntimeException("Author already exist.");
         }
-        // convert to entity
-        Author author = authorMapper.toEntity(dto);
-        // save entity
-        Author savedAuthor = authorRepository.save(author);
-        // convert to dto
-        return authorMapper.toDTO(savedAuthor);
+        Author author = Author.builder()
+                .name(dto.getName())
+                .birth(dto.getBirth())
+                .build();
+        return authorMapper.toDTO(authorRepository.save(author));
     }
 
     @Override
     public AuthorResponseDTO updateAuthor(Long id, AuthorRequestDTO dto) {
-        Author findAuthor = authorRepository.findById(id).orElseThrow(() -> new RuntimeException("Author not found."));
+        Author author = authorRepository.findById(id).orElseThrow(() -> new RuntimeException("Author not found."));
         if (dto.getName() != null) {
-            findAuthor.setName(dto.getName());
+            author.setName(dto.getName());
         }
         if (dto.getBirth() != null) {
-            findAuthor.setBirth(dto.getBirth());
+            author.setBirth(dto.getBirth());
         }
-        authorRepository.save(findAuthor);
-        return authorMapper.toDTO(findAuthor);
+        return authorMapper.toDTO(authorRepository.save(author));
     }
 
     @Override

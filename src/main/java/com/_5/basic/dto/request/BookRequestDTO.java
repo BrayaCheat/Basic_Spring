@@ -15,5 +15,4 @@ import java.time.LocalDate;
 public class BookRequestDTO {
     private String name;
     private LocalDate publishDate;
-    private Long authorId;
 }

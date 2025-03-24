@@ -9,15 +9,15 @@ import org.mapstruct.Mapping;
 @Mapper(componentModel = "spring")
 public interface BookMapper {
 
-    // Map DTO -> Entity (Request to Model)
+    // Map DTO -> Entity (Request)
     @Mapping(target = "id", ignore = true) // Ignore ID when creating
     @Mapping(target = "createdAt", ignore = true) // CreatedAt is auto-generated
     @Mapping(target = "updatedAt", ignore = true) // UpdatedAt is auto-generated
     Book toEntity(BookRequestDTO dto);
 
-    // Map Entity -> DTO (Response to Client)
+    // Map Entity -> DTO (Response)
     @Mapping(target = "authorId", source = "author.id")
-    @Mapping(target = "authorName", source = "author.name")
+    @Mapping(target = "by", source = "author.name")
     @Mapping(target = "id", source = "id")
     BookResponseDTO toDTO(Book book);
 }

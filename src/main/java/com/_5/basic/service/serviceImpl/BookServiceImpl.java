@@ -9,9 +9,12 @@ import com._5.basic.repository.AuthorRepository;
 import com._5.basic.repository.BookRepository;
 import com._5.basic.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -22,73 +25,79 @@ public class BookServiceImpl implements BookService {
     private final BookMapper bookMapper;
 
     @Autowired
-    public BookServiceImpl(BookRepository bookRepository, AuthorRepository authorRepository, BookMapper bookMapper){
+    public BookServiceImpl(BookRepository bookRepository, AuthorRepository authorRepository, BookMapper bookMapper) {
         this.bookRepository = bookRepository;
         this.authorRepository = authorRepository;
         this.bookMapper = bookMapper;
     }
 
     @Override
-    public List<BookResponseDTO> listBooks() {
+    public Page<BookResponseDTO> listBooks(Pageable pageable) {
         return bookRepository
-                .findAll()
-                .stream()
-                .map(bookMapper::toDTO)
-                .collect(Collectors.toList());
+                .findAll(pageable)
+                .map(bookMapper::toDTO);
     }
 
     @Override
     public BookResponseDTO getBook(Long id) {
         Book book = bookRepository
-                    .findById(id)
-                    .orElseThrow(() -> new RuntimeException("Book not found"));
+                .findById(id)
+                .orElseThrow(() -> new RuntimeException("Book with id: " + id + " not found."));
         return bookMapper.toDTO(book);
     }
 
     @Override
-    public BookResponseDTO createBook(BookRequestDTO dto) {
-        Author findAuthor = authorRepository.findById(dto.getAuthorId()).orElseThrow(() -> new RuntimeException("Author not found."));
-
+    public BookResponseDTO createBook(Long authorId, BookRequestDTO dto) {
+        Author author = authorRepository.findById(authorId).orElseThrow(() -> new RuntimeException("Author not found."));
         Book book = Book.builder()
                 .name(dto.getName())
                 .publishDate(dto.getPublishDate())
-                .author(findAuthor)
+                .author(author)
                 .build();
-
-        Book savedBook = bookRepository.save(book);
-        return bookMapper.toDTO(savedBook);
+        return bookMapper.toDTO(bookRepository.save(book));
     }
 
     @Override
     public BookResponseDTO updateBook(Long id, BookRequestDTO dto) {
-        Book findBook = bookRepository.findById(id).orElseThrow(() -> new RuntimeException("Book not found."));
-        if(dto.getName() != null){
-            findBook.setName(dto.getName());
+        Book book = bookRepository.findById(id).orElseThrow(() -> new RuntimeException("Book not found."));
+        if (dto.getName() != null) {
+            book.setName(dto.getName());
         }
-        if(dto.getPublishDate() != null){
-            findBook.setPublishDate(dto.getPublishDate());
+        if (dto.getPublishDate() != null) {
+            book.setPublishDate(dto.getPublishDate());
         }
-        Book savedBook = bookRepository.save(findBook);
-        return bookMapper.toDTO(savedBook);
+        return bookMapper.toDTO(bookRepository.save(book));
     }
 
     @Override
     public void deleteBook(Long id) {
-        if(!bookRepository.existsById(id)){
+        if (!bookRepository.existsById(id)) {
             throw new RuntimeException("Book not found.");
         }
-       bookRepository.deleteById(id);
+        bookRepository.deleteById(id);
     }
 
     @Override
     public List<BookResponseDTO> searchBook(String name) {
         List<Book> books = bookRepository.searchBook(name);
-        if(books.isEmpty()){
+        if (books.isEmpty()) {
             throw new RuntimeException("No books found.");
         }
         return books
                 .stream()
                 .map(bookMapper::toDTO)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public Optional<BookResponseDTO> getBookByAuthor(Long authorId, Long bookId){
+        Author author = authorRepository.findById(authorId).orElseThrow(() -> new RuntimeException("Author not found with id: " + authorId));
+        Optional<Book> book = bookRepository
+                .findById(bookId)
+                .filter(b -> b.getAuthor().getId().equals(authorId));
+        if(book.isEmpty()){
+            throw new RuntimeException(author.getName() + " does not have book id: " + bookId);
+        }
+        return book.map(bookMapper::toDTO);
     }
 }

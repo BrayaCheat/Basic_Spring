@@ -17,5 +17,5 @@ public class BookResponseDTO {
     private String name;
     private LocalDate publishDate;
     private Long authorId;
-    private String authorName;
+    private String by;
 }

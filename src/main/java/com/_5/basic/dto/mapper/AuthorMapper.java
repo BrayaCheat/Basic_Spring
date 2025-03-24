@@ -9,7 +9,7 @@ import org.mapstruct.Mapping;
 @Mapper(componentModel = "spring")
 public interface AuthorMapper {
 
-    // Map DTO -> Entity (Request to Model)
+    // Map DTO -> Entity (Request)
     @Mapping(target = "id", ignore = true) // Ignore ID when creating
     @Mapping(target = "createdAt", ignore = true) // CreatedAt is auto-generated
     @Mapping(target = "updatedAt", ignore = true) // UpdatedAt is auto-generated
