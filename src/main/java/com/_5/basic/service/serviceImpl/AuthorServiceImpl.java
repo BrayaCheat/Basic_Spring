@@ -7,6 +7,8 @@ import com._5.basic.model.Author;
 import com._5.basic.service.AuthorService;
 import com._5.basic.repository.AuthorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -25,12 +27,10 @@ public class AuthorServiceImpl implements AuthorService {
     }
 
     @Override
-    public List<AuthorResponseDTO> listAuthors() {
+    public Page<AuthorResponseDTO> listAuthors(Pageable pageable) {
         return authorRepository
-                .findAll()
-                .stream()
-                .map(authorMapper::toDTO)
-                .collect(Collectors.toList());
+                .findAll(pageable)
+                .map(authorMapper::toDTO);
     }
 
     @Override

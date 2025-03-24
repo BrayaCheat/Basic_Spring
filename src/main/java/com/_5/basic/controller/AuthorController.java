@@ -3,6 +3,10 @@ package com._5.basic.controller;
 import com._5.basic.dto.request.AuthorRequestDTO;
 import com._5.basic.dto.response.AuthorResponseDTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import com._5.basic.service.serviceImpl.AuthorServiceImpl;
 import org.springframework.web.bind.annotation.*;
@@ -21,8 +25,14 @@ public class AuthorController {
     }
 
     @GetMapping("/authors")
-    public ResponseEntity<List<AuthorResponseDTO>> listAuthors() {
-        return ResponseEntity.ok(authorService.listAuthors());
+    public ResponseEntity<Page<AuthorResponseDTO>> listAuthors(
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "3") int size,
+            @RequestParam(defaultValue = "name") String sortBy,
+            @RequestParam(defaultValue = "asc") String direction) {
+        Sort sort = direction.equalsIgnoreCase("desc") ? Sort.by(sortBy).descending() : Sort.by(sortBy).ascending();
+        Pageable pageable = PageRequest.of(page - 1, size, sort);
+        return ResponseEntity.ok(authorService.listAuthors(pageable));
     }
 
     @GetMapping("/authors/{id}")
