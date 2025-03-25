@@ -7,10 +7,13 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import com._5.basic.service.serviceImpl.AuthorServiceImpl;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -40,9 +43,9 @@ public class AuthorController {
         return ResponseEntity.ok(authorService.getAuthor(id));
     }
 
-    @PostMapping("/authors")
-    public ResponseEntity<AuthorResponseDTO> createAuthor(@RequestBody AuthorRequestDTO dto) {
-        return ResponseEntity.ok(authorService.createAuthor(dto));
+    @PostMapping(value = "/authors", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<AuthorResponseDTO> createAuthor(@ModelAttribute AuthorRequestDTO dto, @RequestParam MultipartFile file) throws IOException {
+        return ResponseEntity.ok(authorService.createAuthor(dto, file));
     }
 
     @PutMapping("/authors/{id}")

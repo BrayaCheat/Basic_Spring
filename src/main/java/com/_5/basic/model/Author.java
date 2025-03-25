@@ -23,6 +23,7 @@ public class Author {
 
     private String name;
     private LocalDate birth;
+    private String image;
 
     @CreationTimestamp
     private LocalDate createdAt;

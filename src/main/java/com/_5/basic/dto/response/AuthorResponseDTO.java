@@ -17,5 +17,6 @@ public class AuthorResponseDTO {
     private Long id;
     private String name;
     private LocalDate birth;
+    private String image;
     private List<Book> books;
 }

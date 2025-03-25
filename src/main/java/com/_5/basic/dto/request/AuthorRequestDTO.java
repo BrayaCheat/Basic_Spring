@@ -14,4 +14,5 @@ import java.time.LocalDate;
 public class AuthorRequestDTO {
     private String name;
     private LocalDate birth;
+    private String image;
 }
