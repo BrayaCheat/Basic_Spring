@@ -23,11 +23,17 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
     }
 
-    @ExceptionHandler({BadCredentialsException.class, AccountStatusException.class, AccessDeniedException.class, SignatureException.class, ExpiredJwtException.class})
+    @ExceptionHandler({
+            BadCredentialsException.class,
+            AccountStatusException.class,
+            AccessDeniedException.class,
+            SignatureException.class,
+            ExpiredJwtException.class
+    })
     public ResponseEntity<ProblemDetail> handleSecurityException(Exception exception) {
         ProblemDetail errorDetail;
 
-        // TODO: Send this stack trace to an observability tool
+        // Log the exception detail
         exception.printStackTrace();
 
         switch (exception) {
