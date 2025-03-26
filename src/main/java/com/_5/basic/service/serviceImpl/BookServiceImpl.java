@@ -94,7 +94,7 @@ public class BookServiceImpl implements BookService {
         Author author = authorRepository.findById(authorId).orElseThrow(() -> new RuntimeException("Author not found with id: " + authorId));
         Optional<Book> book = bookRepository
                 .findById(bookId)
-                .filter(b -> b.getAuthor().getId().equals(authorId));
+                .filter(x -> x.getAuthor().getId().equals(authorId));
         if(book.isEmpty()){
             throw new RuntimeException(author.getName() + " does not have book id: " + bookId);
         }
