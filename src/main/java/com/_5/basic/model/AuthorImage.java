@@ -2,27 +2,26 @@ package com._5.basic.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDate;
-import java.util.List;
 
 @Entity
-@Table(name = "authors")
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
 @Builder
-public class Author {
-
+@AllArgsConstructor
+@NoArgsConstructor
+@Table(name = "authors_images")
+public class AuthorImage {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    private String name;
-    private LocalDate birth;
+    private String url;
 
     @CreationTimestamp
     private LocalDate createdAt;
@@ -30,9 +29,8 @@ public class Author {
     @UpdateTimestamp
     private LocalDate updatedAt;
 
-    @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Book> books;
-
-    @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<AuthorImage> images;
+    @ManyToOne
+    @JoinColumn(name = "author_id", nullable = false)
+    @JsonIgnore
+    private Author author;
 }

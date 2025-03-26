@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -44,8 +45,9 @@ public class AuthorController {
     }
 
     @PostMapping(value = "/authors", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<AuthorResponseDTO> createAuthor(@ModelAttribute AuthorRequestDTO dto, @RequestParam MultipartFile file) throws IOException {
-        return ResponseEntity.ok(authorService.createAuthor(dto, file));
+    public ResponseEntity<?> createAuthor(@ModelAttribute AuthorRequestDTO dto, @RequestParam List<MultipartFile> files) throws IOException {
+//        return ResponseEntity.status(201).body(files.stream().count());
+        return ResponseEntity.ok(authorService.createAuthor(dto, files));
     }
 
     @PutMapping("/authors/{id}")

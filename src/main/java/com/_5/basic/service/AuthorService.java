@@ -12,7 +12,7 @@ import java.util.List;
 public interface AuthorService {
     Page<AuthorResponseDTO> listAuthors(Pageable pageable);
     AuthorResponseDTO getAuthor(Long id);
-    AuthorResponseDTO createAuthor(AuthorRequestDTO dto, MultipartFile file) throws IOException;
+    AuthorResponseDTO createAuthor(AuthorRequestDTO dto, List<MultipartFile> files) throws IOException;
     AuthorResponseDTO updateAuthor(Long id, AuthorRequestDTO dto);
     void deleteAuthor(Long id);
     List<AuthorResponseDTO> searchAuthor(String name);
