@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -36,7 +35,7 @@ public class AuthorController {
             @RequestParam(defaultValue = "asc") String direction) {
         Sort sort = direction.equalsIgnoreCase("desc") ? Sort.by(sortBy).descending() : Sort.by(sortBy).ascending();
         Pageable pageable = PageRequest.of(page - 1, size, sort);
-        return ResponseEntity.ok(authorService.listAuthors(pageable));
+        return ResponseEntity.status(200).body(authorService.listAuthors(pageable));
     }
 
     @GetMapping("/authors/{id}")

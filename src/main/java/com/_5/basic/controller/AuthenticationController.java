@@ -15,11 +15,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Optional;
 
-@RequestMapping("auth")
+@RequestMapping("/auth")
 @RestController
 public class AuthenticationController {
-    private final JwtService jwtService;
 
+    private final JwtService jwtService;
     private final AuthenticationService authenticationService;
 
     @Autowired
