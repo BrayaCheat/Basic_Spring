@@ -6,6 +6,7 @@ import com._5.basic.dto.response.LoginResponseDTO;
 import com._5.basic.model.User;
 import com._5.basic.service.AuthenticationService;
 import com._5.basic.service.JwtService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -29,12 +30,12 @@ public class AuthenticationController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<User> register(@RequestBody RegisterUserDTO registerUserDto) {
+    public ResponseEntity<User> register(@Valid  @RequestBody RegisterUserDTO registerUserDto) {
         return ResponseEntity.ok(authenticationService.signup(registerUserDto));
     }
 
     @PostMapping("/login")
-    public ResponseEntity<LoginResponseDTO> authenticate(@RequestBody LoginUserDTO loginUserDto) {
+    public ResponseEntity<LoginResponseDTO> authenticate(@Valid @RequestBody LoginUserDTO loginUserDto) {
         User authenticatedUser = authenticationService.authenticate(loginUserDto);
         String jwtToken = jwtService.generateToken(authenticatedUser);
         LoginResponseDTO loginResponse = LoginResponseDTO.builder()
