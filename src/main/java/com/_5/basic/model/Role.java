@@ -10,6 +10,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Data
 @Entity
@@ -22,13 +23,7 @@ public class Role {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String role;
-    @CreationTimestamp
-    private LocalDate createdAt;
-    @UpdateTimestamp
-    private LocalDate updatedAt;
 
-    @OneToOne
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
-    @JsonBackReference
-    private User user;
+    @OneToMany(mappedBy = "role", cascade = CascadeType.ALL)
+    private List<User> users;
 }

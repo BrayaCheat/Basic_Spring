@@ -1,5 +1,6 @@
 package com._5.basic.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -45,7 +46,9 @@ public class User implements UserDetails {
     @Column(name = "updated_at")
     private LocalDate updatedAt;
 
-    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @ManyToOne
+    @JoinColumn(name = "role_id", referencedColumnName = "id", nullable = false, unique = false)
+    @JsonBackReference
     private Role role;
 
     @Override

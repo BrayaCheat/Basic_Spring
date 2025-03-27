@@ -32,7 +32,7 @@ public class Book {
     private LocalDate updatedAt;
 
     @ManyToOne
-    @JoinColumn(name = "author_id", nullable = false)
+    @JoinColumn(name = "author_id", referencedColumnName = "id", nullable = false)
     @JsonBackReference
     private Author author;
 }
