@@ -10,13 +10,11 @@ import org.mapstruct.Mapping;
 public interface BookMapper {
 
     // Map DTO -> Entity (Request)
-    @Mapping(target = "id", ignore = true) // Ignore ID when creating
-    @Mapping(target = "createdAt", ignore = true) // CreatedAt is auto-generated
-    @Mapping(target = "updatedAt", ignore = true) // UpdatedAt is auto-generated
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "createdAt", ignore = true)
+    @Mapping(target = "updatedAt", ignore = true)
     Book toEntity(BookRequestDTO dto);
 
     // Map Entity -> DTO (Response)
-    @Mapping(target = "authorId", source = "author.id")
-    @Mapping(target = "by", source = "author.name")
     BookResponseDTO toDTO(Book book);
 }

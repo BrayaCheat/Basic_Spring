@@ -1,8 +1,6 @@
 package com._5.basic.dto.response;
 
 import com._5.basic.model.AuthorImage;
-import com._5.basic.model.AuthorProfile;
-import com._5.basic.model.Book;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -20,6 +18,6 @@ public class AuthorResponseDTO {
     private String name;
     private LocalDate birth;
     private List<AuthorImage> images;
-    private List<Book> books;
-    private AuthorProfile authorProfile;
+    private List<BookResponseDTO> books;
+    private AuthorProfileResponseDTO authorProfile;
 }

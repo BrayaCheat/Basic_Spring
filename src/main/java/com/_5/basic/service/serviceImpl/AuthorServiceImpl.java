@@ -9,11 +9,9 @@ import com._5.basic.repository.AuthorImageRepository;
 import com._5.basic.service.AuthorService;
 import com._5.basic.repository.AuthorRepository;
 import com._5.basic.utils.FileService;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 

@@ -1,5 +1,6 @@
 package com._5.basic.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -31,6 +32,6 @@ public class AuthorProfile {
 
     @OneToOne
     @JoinColumn(name = "author_id", referencedColumnName = "id")
-    @JsonIgnore
+    @JsonBackReference
     private Author author;
 }

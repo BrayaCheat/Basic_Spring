@@ -16,6 +16,4 @@ public class BookResponseDTO {
     private Long id;
     private String name;
     private LocalDate publishDate;
-    private Long authorId;
-    private String by;
 }

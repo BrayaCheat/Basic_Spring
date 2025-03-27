@@ -16,6 +16,5 @@ public interface AuthorProfileMapper {
     AuthorProfile toEntity(AuthorProfileRequestDTO dto);
 
     // Map Entity -> DTO (Response)
-    @Mapping(target = "authorId", source = "author.id")
     AuthorProfileResponseDTO toDTO(AuthorProfile authorProfile);
 }
